@@ -1,0 +1,404 @@
+Entity relatedness dataset of Ceccareli et al : http://dexter.isti.cnr.it/static/papers/cikm13.pdf
+
+Original link: http://hpc.isti.cnr.it/~ceccarelli/relatedness/
+
+===================================================================================================
+The format of this dataset is described by Diego in the following e-mail thread:
+
+Forwarded conversation
+Subject: Learning Entity Semantic Relatedness Score
+------------------------
+
+From: Hongzhao Huang <hongzhaohuang@gmail.com>
+Date: Tue, Jun 3, 2014 at 12:44 AM
+To: diego.ceccarelli@isti.cnr.it
+
+
+Dear Diego,
+
+My name is Hongzhao Huang, and I am a ph.d student at RPI at US. I have also done some work on entity linking and wikification. I have developed a collective tweet wikification approach to detect and link a set of relevant mention over multiple tweets simultaneously (the paper will appear in ACL2014 soon). One key feature I used in my system is based on semantic relatedness score between entities/concepts. And I have used the standard approach proposed by Milne and Witten, 2008. I found it is not good enough, and I found your work. You proposed a great approach for this problem, and I would like to use your method. I think your approach would improve my system greatly.
+
+I am wondering whether you have the system publicly available? And is it possible for you to share with me your training data?
+
+Thanks in advance for your help.
+
+Best.
+Hongzhao.
+
+----------
+From: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+Date: Tue, Jun 3, 2014 at 7:27 PM
+To: Hongzhao Huang <hongzhaohuang@gmail.com>
+
+
+Dear Hongzhao,
+
+I'm really interested in tweet wikification, and also I'm doing it now for a paper. I want to help you 
+but unfortunatelly I spent 2 months for refactoring dexter[1] and I did not yet have time to 
+refactor the relatedness learning. 
+Anyway I'll be happy to share my code with you.. probably you can use it with not to much effort.
+I did not include it in the fremework because in the end, computing all the features make things slow, and I want
+to annotate fast.
+
+How are you going to use the relatedness with the tweets? in my experience there are so so few entities
+in a tweet and sometimes they are not related in wikipedia..I usually boost more link probability and 
+prior probability for a entity to be associated with a mention. 
+
+Are you in a hurry for a deadline or you can wait a bit? 
+I've some deadlines in these days ;) 
+
+
+Cheers,
+DIego
+
+[1] http://dexter.isti.cnr.it
+
+-- 
+Computers are useless. They can only give you answers.
+(Pablo Picasso)
+_______________                                
+Diego Ceccarelli
+High Performance Computing Laboratory
+Information Science and Technologies Institute (ISTI)
+Italian National Research Council (CNR)
+Via Moruzzi, 1
+56124 - Pisa - Italy
+
+Phone: +39 050 315 2984 
+Fax: +39 050 315 2040
+________________________________________
+
+----------
+From: Hongzhao Huang <hongzhaohuang@gmail.com>
+Date: Tue, Jun 3, 2014 at 9:16 PM
+To: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+
+
+Hi Diego,
+
+Thanks so much for your help.  I really appreciate that. Yes, there are usually very few entities within one single tweet, that is why I did it across multiple relevant tweets. I attached my ACL2014 paper to you in case you are interested and want to know more details. If you have any comments for the paper, please also let me know:)
+
+No hurry for the code. Is it possible for you to share with me the training data (entity-entity pairs) you got from the CoNLL2003 data first (if you have that available and if it is easy for you to share)? I am very interested in that, and want to do some analysis on the training data first.
+
+Thanks again for your kind help. Good luck with your paper submission.
+
+Best.
+Hongzhao.
+
+----------
+From: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+Date: Tue, Jun 3, 2014 at 9:37 PM
+To: Salvatore Trani <salvatore.trani@isti.cnr.it>
+
+
+JFYI
+
+----------
+From: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+Date: Mon, Jul 7, 2014 at 11:49 PM
+To: Hongzhao Huang <hongzhaohuang@gmail.com>
+
+
+dear Hongzhao,
+
+Sorry for the delay, tonight I had some time to refactor a bit the code.
+Here you can find the code (Sorry I still have to refactor decently, but at
+least now it compiles)
+
+http://git.hpc.isti.cnr.it/ntt/dexter-relatedness.git
+
+you can find the dataset that I extracted from conll at this url:
+
+http://hpc.isti.cnr.it/~ceccarelli/relatedness/
+
+* relatedness-assessment.tsv.gz, contains the couples of mentions (spots)
+that I extracted from the documents together with the entities, each line
+is formated in this way:
+
+<id doc> <e spot> <id e> < candidate spot >
+<id c> <relatedness [1|0]>
+
+Where e is the known entity while c is the candidate entity (the int
+represents the wikipedia id of the entity)
+
+If you need to generate the features have a look to the class FeatureGenerator.
+You would need to patch the function:
+
+    public List<Double> eval(int e, int c) {
+        helper.addEdges(inE, outE, inC, outC);
+
+and replace inE entities that link to the entity e and outE with the entities
+linked by the entity E.. the same for C.
+
+Finally, test.svm.gz, validate.svm.gz, training.svm.gz
+are the datasets that I created to learn the model.
+Each file contains a distinct subset of the documents in conll, and
+for each subset the features of the couple of spots found in the document.
+(the comment at the end of each line contains the ids of the entities followed
+by the conll document id from where I extracted the couple)
+You can see the order of the features in the method
+FeatureGenerator.getStdFeatureGenerator
+
+Hope this could help,
+and please do not hesitate to contact me if you require further information.
+
+Cheers,
+Diego
+
+----------
+From: Hongzhao Huang <hongzhaohuang@gmail.com>
+Date: Wed, Jul 9, 2014 at 4:44 AM
+To: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+
+
+Hi Diego,
+
+Thanks so much for your help. It is very helpful.
+
+Best.
+Hongzhao.
+
+----------
+From: Hongzhao Huang <hongzhaohuang@gmail.com>
+Date: Thu, Jul 17, 2014 at 12:45 AM
+To: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+
+
+Hi Diego,
+
+It seems that I need to login to access the code. Could you please tell me how can I do that?
+
+Thanks a lot.
+Hongzhao.
+
+
+On Mon, Jul 7, 2014 at 3:49 PM, Diego Ceccarelli <diego.ceccarelli@isti.cnr.it> wrote:
+
+
+----------
+From: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+Date: Thu, Jul 17, 2014 at 9:04 AM
+To: Hongzhao Huang <hongzhaohuang@gmail.com>
+
+
+Hi Hongzhao,
+
+On Thu, Jul 17, 2014 at 1:45 AM, Hongzhao Huang <hongzhaohuang@gmail.com> wrote:
+> Hi Diego,
+>
+> It seems that I need to login to access the code. Could you please tell me
+> how can I do that?
+
+I checked and the project is public, you cannot access the http page
+but you can clone the repo:
+
+git clone http://git.hpc.isti.cnr.it/ntt/dexter-relatedness.git
+
+if it does not work please send me the error and I'll help you.
+Cheers,
+Diego
+
+----------
+From: Hongzhao Huang <hongzhaohuang@gmail.com>
+Date: Thu, Jan 8, 2015 at 2:15 AM
+To: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+
+
+Hi Diego,
+
+Happy new year to you. Hope everything is going on well with you.
+
+Recently I am also working on developing on some similarity measures to measure semantic relatedness between entities. I learn a lot from your paper. I have a question on evaluation of semantic relatedness measurement quality from your paper.
+
+Could you please tell me how did you compute P@K? Did you need a validation set to find a optimal threshold to judge semantically-related not first?
+
+Thanks a lot.
+Hongzhao. 
+
+----------
+From: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+Date: Sun, Jan 11, 2015 at 5:02 PM
+To: Hongzhao Huang <hongzhaohuang@gmail.com>
+
+
+Dear Hongzhao,
+
+On Thu, Jan 8, 2015 at 3:15 AM, Hongzhao Huang <hongzhaohuang@gmail.com> wrote:
+> Hi Diego,
+>
+> Happy new year to you. Hope everything is going on well with you.
+>
+> Recently I am also working on developing on some similarity measures to
+> measure semantic relatedness between entities. I learn a lot from your
+> paper. I have a question on evaluation of semantic relatedness measurement
+> quality from your paper.
+>
+> Could you please tell me how did you compute P@K? Did you need a validation
+> set to find a optimal threshold to judge semantically-related not first?
+
+Happy new year to you, and sorry for the delay of my answer,
+I generated the dataset from the conll
+dataset, considering one mention at a time, together with its
+correctly associated
+entity, and then generating the set of 'semantically related' entities
+as the correctly associated entities of the near mentions (where
+'near' means co-occurring in a 50 terms window). while the set of
+semantically-unrelated entities was produced in the same way, but
+using the not-correct disambiguation of the near mentions.
+
+As example, given a document manually annotated:
+
+On this day 24 years ago Maradona scored his infamous "Hand of God"
+goal against England in the quarter-final of the 1986
+
+where Maradona is correctly linked to the football player and England
+is the Football Team (and not the country, nor  the rugby union team)
+I would generate for the entity Maradona the following golden truth:
+
+Maradona - England(football team) - relavant
+Maradona - Single-elimination_tournament- relavant (the quarter-final mention)
+Maradona - English rugby union team  - not relavant
+Maradona - England(country) not relevant
+[...]
+
+Please do not esitate to write me for more details.
+
+----------
+From: Hongzhao Huang <hongzhaohuang@gmail.com>
+Date: Mon, Jan 12, 2015 at 6:16 PM
+To: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+
+
+Hi Diego,
+
+Thanks a lot for the information. When you computing P@1,5,10, did you just use P@k = (number of relevant entities in top ranked k positions)/K? If you used this, if the number of relevant entities is less than k, then it tends to make the scores lower. I just want to make sure I got your evaluation method clearly since I didnot see exactly what are the formulas you used exactly in the paper. 
+
+Thanks again for your time and your help.
+
+Best.
+Hongzhao.
+
+----------
+From: Hongzhao Huang <hongzhaohuang@gmail.com>
+Date: Mon, Jan 12, 2015 at 11:55 PM
+To: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+
+
+Hi Diego,
+
+I have another question on the paper.
+
+Could you please tell me which dataset you used for the entity linking experiments (scores reported in Table 4)? Is it a CONLL or AIDA dataset? And did you use any dataset from CONLL testb in the training set you used to learn the learning to semantic relatedness measure?
+
+Thanks.
+Hongzhao.
+
+----------
+From: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+Date: Mon, Jan 19, 2015 at 6:07 PM
+To: Hongzhao Huang <hongzhaohuang@gmail.com>
+
+
+Hi Hongzhao,
+sorry for my delay, busy days, a lot of deadlines ;)
+
+On Mon, Jan 12, 2015 at 7:16 PM, Hongzhao Huang <hongzhaohuang@gmail.com> wrote:
+> Hi Diego,
+>
+> Thanks a lot for the information. When you computing P@1,5,10, did you just
+> use P@k = (number of relevant entities in top ranked k positions)/K? If you
+> used this, if the number of relevant entities is less than k, then it tends
+> to make the scores lower.
+
+You are right, but for how precision is defined, you relevant entities
+are less than k, you
+still divide per K, to avoid what you observed. If you want to be sure
+that you are computing
+the measures like me, I used the latest version of the standard
+trec_eval library [1]
+
+
+>  I just want to make sure I got your evaluation
+> method clearly since I didnot see exactly what are the formulas you used
+> exactly in the paper.
+
+Sorry about that, we did not put the formulas because of space constraints.
+
+I'll continue in the next mail,
+Cheers,
+Diego
+
+[1] http://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz
+
+----------
+From: Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
+Date: Mon, Jan 19, 2015 at 6:11 PM
+To: Hongzhao Huang <hongzhaohuang@gmail.com>
+
+
+Hi again,
+
+On Tue, Jan 13, 2015 at 12:55 AM, Hongzhao Huang
+<hongzhaohuang@gmail.com> wrote:
+> Hi Diego,
+>
+> I have another question on the paper.
+>
+> Could you please tell me which dataset you used for the entity linking
+> experiments (scores reported in Table 4)? Is it a CONLL or AIDA dataset? And
+> did you use any dataset from CONLL testb in the training set you used to
+> learn the learning to semantic relatedness measure?
+
+It was the AIDA dataset (built from Conll), We used the whole dataset
+(so the training + testb)
+and we partitioned the documents in a training, a validation and a
+test set. Results reported was
+on the test-set, but I don't think that it was test b. If you need I
+could investigate which documents
+were in the testset.
+
+Cheers,
+Diego
+
+
+
+
+
+==============================================================
+
+Hi Diego,
+
+Thanks. I've read these e-mails, but I still have a few questions. If I look at relatedness-assessment.tsv and at the svm files there seem to be some inconsistencies. 
+
+For example, the number of lines associated to document ID 1 from relatedness-assessment.tsv is 1610 (I counted the lines that start with 1 and are followed by a tab), whereas the number of lines associated to document ID 1 from test.svm (the only one containing this document id) is 962 (I counted the lines ending in 1 from test.svm).
+
+Moreover, there are some entity pairs that appear in test.svm , but not in relatedness-assessment.tsv, e.g. the first pair from test.svm: 11867-17158563. 
+
+Thanks a lot for your clarifications,
+
+Best regards,
+
+
+
+
+Hi Octavian,
+
+I copy-paste a previous answer I wrote to someone else asking the same thing:
+
+The two files (i.e., relatedness-assessment.tsv and training/validate/test.svm) are in a different format. The tsv file is the raw format, i.e., starting form this file we generated the svm file, that has then split in training/validate and test files. For this reason, the number of rows in the two files are not directly comparable. Indeed, each row in the svm file refers to a single couple of spots (s1, s2). For instance, the first row of the tsv file is the following:
+
+1       german  11867   british 31717   1
+
+and in the same document (with id=1) there is also:
+
+1       german  11867   britain 31717   1
+
+These two rows refer to the same "german" spot s1, but to different spots s2 ("british" and "britain") contained in the same document and annotated both.
+Despite the mentions associated to the candidate entity are different (british and britain), they both refer to the same entity (31717) and consequently in the svm file you will find a single couple related to the ids 11867-31717 (this is the 17th row in the test file). For this reason, the number of rows in the svm is reduced compared to that of the tsv file.
+
+Regarding your second question, I agree that the second id is apparently wrong in the comment of the svm. You are the first to notice this problem, so we should investigate the reason of this mismatch...
+How many pairs you were not able to recognize (just to know if it is a critical problem or not) ?
+
+
+
+
