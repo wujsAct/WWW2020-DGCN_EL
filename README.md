@@ -1,4 +1,4 @@
 # DGCN_EL
 This is the source code for WWW20' paper
 
-I have uploaded the training main file.
+I have uploaded and updated the main file.
