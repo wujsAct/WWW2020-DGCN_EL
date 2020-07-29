@@ -2,3 +2,9 @@ Download freebase-vectors-skipgram1000.bin.gz
 
 
 aida, aquaint, msnbc, ace2004, clueweb and wikipedia dataset will released soon...
+
+
+you can download other files from the google driver link: 
+wiki_name_id_map_from_corpus.txt: https://drive.google.com/file/d/1G4LBB33UeoadiWBXlAqhgPhvk7Z3g7N8/view?usp=sharing
+wiki_name_id_map.txt: https://drive.google.com/file/d/1osIy9x936R7ms9ADU-EYQ6-R_HkxShoh/view?usp=sharing
+wiki_disambiguation_pages.txt: https://drive.google.com/file/d/1Ts9sPDTQ3npVHljzBOGjm5lXfsEnQtfz/view?usp=sharing
