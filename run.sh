@@ -1,27 +1,29 @@
 #data process
 #---insert wiki-cross and yago dictionary into mongodb
-python entity/mongo_utils.py
+#python entity/mongo_utils.py
 
 #change 'Project Absolute Path' into your project pathes
 #---generate candidates
-python s2_1_get_mention_cands.py
-python s2_2_get_e_mention_cands.py
+#python s2_1_get_mention_cands.py
+#python s2_2_get_e_mention_cands.py
 
 #---check our generated candidates with EMNLP2017
-python s3_1_check_entity_cands.py
+#python s3_1_check_entity_cands.py
 
 #---get all entities
-python s3_2_get_entity_2_id.py
+#python s3_2_get_entity_2_id.py
 
 #---extract entity Ganea embeddings, transE embedding, word2vec embedding
-python s3_3_get_entity_2_embed.py
+#python s3_3_get_entity_2_embed.py
 
 #---extract entity notable type from freebase
-python s3_4_get_entity_type.py
+#python s3_4_get_entity_type.py
 
 #---extract all words embedding
-python steps/s4_gen_word_infos.py
+#python steps/s4_gen_word_infos.py
 
+
+#!!I have finished the preprocessed tasks, so you can directly run from this steps..
 #insert training data into the mongodb
 python embeddings/get_ent_linking_data.py
 
