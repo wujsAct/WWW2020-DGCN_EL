@@ -154,5 +154,8 @@ class mongoUtils(object):
 
 if __name__=="__main__":
   mongo_utils = mongoUtils('wiki')
-  mongo_utils.insert_yago_record()
-  mongo_utils.insert_cross_wiki_record()
+  #mongo_utils.insert_yago_record()
+  #mongo_utils.insert_cross_wiki_record()
+  
+  # # create index after inserted the dataset...
+  mongo_utils.add_index() 
