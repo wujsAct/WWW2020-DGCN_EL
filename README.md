@@ -1,6 +1,7 @@
 # DGCN_EL
 
 Runs on Python 2.7 
+tensorflow>=1.14
 
 This is the source code for WWW20' paper: Dynamic Graph Convolutional Networks for Entity Linking
 
