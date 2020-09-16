@@ -1,17 +1,17 @@
 # DGCN_EL
 
 Runs on Python 2.7 
-tensorflow>=1.14
+tensorflow>=1.14 
 
-#data process
-#---insert wiki-cross and yago dictionary into mongodb
+#data process 
+#---insert wiki-cross and yago dictionary into mongodb 
 python entity/mongo_utils.py #you also need to run add_index() to fasten the candidate generation process
 
 
-#change 'Project Absolute Path' into your project pathes
-#---generate candidates
-python s2_1_get_mention_cands.py
-python s2_2_get_e_mention_cands.py
+#change 'Project Absolute Path' into your project pathes 
+#---generate candidates 
+python s2_1_get_mention_cands.py 
+python s2_2_get_e_mention_cands.py 
 
 #---check our generated candidates with EMNLP2017
 python s3_1_check_entity_cands.py
